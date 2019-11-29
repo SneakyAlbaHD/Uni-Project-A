@@ -1,0 +1,11 @@
+1,"Le Bistro","Glasgow",5
+“Kris Kristofferson”,3
+”Tori Amos”,4
+”Herbie Hancock”,4
+”Diana Krall”,2
+”k. d. Lang”,3
+2,”Court and Spark”,”Edinburgh”,2
+”Norah Jones”,4
+”Herbie Hancock”,5
+3,"Food Inc","Glasgow",1
+“Kris Kristofferson”,3
