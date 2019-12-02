@@ -5,14 +5,11 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author mga
- */
-public class Restaurant {
+public class Restaurant implements Comparable<Restaurant>, Serializable {
     private final int id;
     private String name;
     private String location;
@@ -23,9 +20,6 @@ public class Restaurant {
     static final char EOLN='\n';       
     static final String QUOTE="\""; 
 
-    /**
-     *
-     */
     public Restaurant() {
         this.id = ++lastIdAllocated;
         this.name = "TBC";
@@ -33,11 +27,6 @@ public class Restaurant {
         this.reviewsCollection = new ArrayList<>();        
     }
 
-    /**
-     *
-     * @param name
-     * @param location
-     */
     public Restaurant(String name, String location) {
         this.id = ++lastIdAllocated;
         this.name = name;
@@ -45,12 +34,6 @@ public class Restaurant {
         this.reviewsCollection = new ArrayList<>();
     }
 
-    /**
-     *
-     * @param name
-     * @param location
-     * @param reviewsCollection
-     */
     public Restaurant(String name, String location, List<Review> reviewsCollection) {
         this.id = ++lastIdAllocated;        
         this.name = name;
@@ -58,13 +41,6 @@ public class Restaurant {
         this.reviewsCollection = reviewsCollection;
     }
 
-    /**
-     *
-     * @param id
-     * @param name
-     * @param location
-     * @param reviewsCollection
-     */
     public Restaurant(int id, String name, String location, List<Review> reviewsCollection) {
         this.id = id;
         this.name = name;
@@ -73,32 +49,25 @@ public class Restaurant {
         if (id > Restaurant.lastIdAllocated)
             Restaurant.lastIdAllocated = id;            
     }
-    
-    /**
-     * @return the id
-     */
+
     public int getId() {
         return id;
     }    
 
-    // Methods required: getters, setters, add, hashCode, equals, compareTo, comparator
     public String getName(){
-        return this.name;
+        return name;
     } 
-    public void setname(String name) {
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
     
-     public String getLocation(){
-        return this.location;
+    public String getLocation(){
+        return location;
     } 
     public void setLocation(String location) {
         this.location = location;
     }
     
-    
-     public List<Review> getReviewsCollection(){
-        return this.reviewsCollection;
+    public List<Review> getReviewsCollection(){
+        return reviewsCollection;
     } 
     public void setReviewsCollection(List<Review> reviewsCollection) {
         this.reviewsCollection = reviewsCollection;
@@ -106,24 +75,33 @@ public class Restaurant {
     
     @Override
     public String toString() {
-        return "\nRestaurant Id: " + id + " - Name: " + name +            
-                " - Location: " + location + "\nReviews: " + reviewsCollection + "\n";
+        return "\nRestaurant Id: " + id +
+               " - Name: " + name +
+               " - Location: " + location +
+               "\nReviews: " + reviewsCollection + "\n";
     }    
     
-    public String toString (char delimiter ) {
-        String a = this.id + delimiter + QUOTE + this.name + QUOTE + delimiter + QUOTE + this.location + QUOTE + delimiter + Integer.toString(this.reviewsCollection.size())+EOLN;
-        String b = "";
-        for (int i = 0; i < this.reviewsCollection.size(); i++){
-            b = b + reviewsCollection.get(i).toString(delimiter);
+    public String toString (char delimiter) {
+        String out = id + delimiter +
+                QUOTE + name + QUOTE + delimiter +
+                QUOTE + location + QUOTE + delimiter +
+                reviewsCollection.size() + EOLN;
+
+        for (Review review : reviewsCollection){
+            out += review.toString(delimiter);
         }
-        return a+b;
+
+        return out;
     }
     
     @Override
     public boolean equals(Object o){
         if(o instanceof Restaurant){
            Restaurant r = (Restaurant)o;
-           return r.id == this.id; 
+           return r.getId() == id &&
+                  r.getName() == name &&
+                  r.getLocation() == location &&
+                  r.getReviewsCollection().equals(reviewsCollection);
         }
         else{
             return false;
@@ -132,11 +110,12 @@ public class Restaurant {
     
     @Override
     public int hashCode(){
-        return getId()*16 + getLocation().hashCode()*16 + getName().hashCode()*16;
+        return id*9 + name.hashCode()*9 + location.hashCode()*9 + reviewsCollection.hashCode();
     }
-     
+
+    @Override
     public int compareTo(Restaurant compareRestaurant){
-        int resid=compareRestaurant.getId();
-        return this.id - resid;
+        int resId=compareRestaurant.getId();
+        return id - resId;
     }
 }

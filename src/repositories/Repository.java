@@ -1,5 +1,6 @@
 package repositories;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -8,11 +9,11 @@ import daos.DAOTextImp;
 import model.Restaurant;
 
 
-public class Repository implements RepositoryInterface {
+public class Repository implements RepositoryInterface, Serializable {
     private List<Restaurant> items;
     
     public Repository() {
-        this.items = new ArrayList<>();
+        items = new ArrayList<>();
     }
     
     public Repository(List<Restaurant> items) {
@@ -22,12 +23,12 @@ public class Repository implements RepositoryInterface {
     public Repository(String filename) {
         this();
         DAOTextImp dao = new DAOTextImp();
-        this.items = dao.load(filename).getItems();
+        items = dao.load(filename).getItems();
     }
     
     @Override
     public List<Restaurant> getItems() {
-        return this.items;
+        return items;
     }
     
     @Override
@@ -37,27 +38,26 @@ public class Repository implements RepositoryInterface {
     
     @Override
     public void add(Restaurant item) {
-        this.items.add(item);
+        items.add(item);
     }
        
     @Override
     public void remove(int id) {
         Predicate<Restaurant> predicate = e->e.getId() == id;       
-        this.items.removeIf(predicate);
+        items.removeIf(predicate);
     }
     
     @Override
     public Restaurant getItem(int id) {
-        for (Restaurant item:this.items) {
-            if (item.getId() == id)
-                return item;
+        for (Restaurant item:items) {
+            if (item.getId() == id) { return item; }
         }
         return null;
     }
     
     @Override
     public String toString() {
-        return "\nItems: " + this.items;
+        return "\nItems: " + items;
     }    
     
     @Override

@@ -13,10 +13,6 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author mga
- */
 public class InputHelper {
     private final Scanner reader;
     
@@ -24,15 +20,13 @@ public class InputHelper {
         reader = new Scanner(System.in);
     }
 
-    // Read Character
     public char readCharacter(String prompt) {
         
         System.out.println(prompt + ": ");
         char inputText = reader.nextLine().charAt(0);
         return inputText;
     }    
-    
-    // Read Character - set of valid values
+
     public char readCharacter(String prompt, String validCharacters) {
         char inputText;
         boolean inputError;        
@@ -47,16 +41,14 @@ public class InputHelper {
         } while (inputError);        
         return inputText;
     }     
-    
-    // Read String
+
     public String readString(String prompt) {
         
         System.out.println(prompt + ": ");
         String inputText = reader.nextLine();
         return inputText;
     }
-    
-    // Read Int
+
     public int readInt(String prompt, int max, int min) {
         int inputNumber = 0;
         boolean inputError;
@@ -77,8 +69,7 @@ public class InputHelper {
         } while (inputError);
         return inputNumber;
     } 
-    
-    // Read Int
+
     public int readInt(String prompt) {
         int inputNumber = 0;
         boolean inputError;
@@ -95,8 +86,7 @@ public class InputHelper {
         } while (inputError);
         return inputNumber;
     }     
-    
-    // Read Float
+
     public float readFloat(String prompt) {
         float inputNumber = 0.0f;
         boolean inputError;
@@ -113,8 +103,7 @@ public class InputHelper {
         } while (inputError);
         return inputNumber;
     }     
-    
-    // Read Date
+
     public Calendar readDate(String prompt, String format) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateInString = readString("Enter date yyyy-MM-dd");

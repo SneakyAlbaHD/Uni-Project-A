@@ -7,15 +7,7 @@ package restaurantapp;
 
 import controllers.RestaurantController;
 
-/**
- *
- * @author mga
- */
 public class RestaurantApp {
-
-    /**
-     *
-     */
     public static void run() {    
         System.out.println("Restaurant Reviews App\n=====================\n\n");
         
@@ -25,10 +17,7 @@ public class RestaurantApp {
         
         System.out.println("Thank you for using Restaurant Reviews App. Good bye.\n");        
     }
-    
-    /**
-     * @param args the command line arguments
-     */
+
     public static void main(String[] args) {
         RestaurantApp restaurantApp = new RestaurantApp();
         restaurantApp.run();

@@ -6,25 +6,26 @@
 package controllers;
 
 import helpers.InputHelper;
+import model.Restaurant;
+import repositories.Repository;
 
-/**
- *
- * @author mga
- */
+import java.util.List;
+
 public class RestaurantController {
-    // private final Repository repository;
-    
-    /**
-     *
-     */
-        
+    private final Repository repository;
+
     public RestaurantController() {
-       // to be completed
+       InputHelper input = new InputHelper();
+       char opt = input.readCharacter("Load Restaurants from an existing file? [Y/N]");
+       if (Character.toLowerCase(opt) == 'y'){
+            String file = input.readString("Enter path to file");
+            this.repository = new Repository(file);
+       }
+       else {
+           this.repository = new Repository();
+       }
     }
-   
-    /**
-     *
-     */
+
     public void run() {
         boolean finished = false;
         
