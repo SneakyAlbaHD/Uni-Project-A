@@ -1,22 +1,19 @@
 package repositories;
 
-import java.io.Serializable;
+import daos.DAOTextImp;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import daos.DAOTextImp;
-import model.Restaurant;
-
-
-public class Repository implements RepositoryInterface, Serializable {
-    private List<Restaurant> items;
+public class Repository<T extends RepositoryObject> implements RepositoryInterface<T> {
+    private List<T> items;
     
     public Repository() {
         items = new ArrayList<>();
     }
     
-    public Repository(List<Restaurant> items) {
+    public Repository(List<T> items) {
         this.items = items;
     }
     
@@ -27,29 +24,29 @@ public class Repository implements RepositoryInterface, Serializable {
     }
     
     @Override
-    public List<Restaurant> getItems() {
+    public List<T> getItems() {
         return items;
     }
     
     @Override
-    public void setItems(List<Restaurant> items) {
+    public void setItems(List<T> items) {
         this.items = items;
     }
     
     @Override
-    public void add(Restaurant item) {
+    public void add(T item) {
         items.add(item);
     }
        
     @Override
     public void remove(int id) {
-        Predicate<Restaurant> predicate = e->e.getId() == id;       
+        Predicate<T> predicate = e->e.getId() == id;
         items.removeIf(predicate);
     }
     
     @Override
-    public Restaurant getItem(int id) {
-        for (Restaurant item:items) {
+    public T getItem(int id) {
+        for (T item:items) {
             if (item.getId() == id) { return item; }
         }
         return null;

@@ -1,19 +1,17 @@
 package repositories;
 
-import model.Restaurant;
-
 import java.util.List;
 
-public interface RepositoryInterface {
-    void add(Restaurant item);
+public interface RepositoryInterface<T> {
+    void add(T item);
 
-    Restaurant getItem(int id);
+    T getItem(int id);
 
-    List<Restaurant> getItems();
+    List<T> getItems();
 
     void remove(int id);
 
-    void setItems(List<Restaurant> items);
+    void setItems(List<T> items);
 
     void store(String filename);
 

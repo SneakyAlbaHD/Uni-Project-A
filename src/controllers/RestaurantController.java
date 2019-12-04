@@ -7,12 +7,13 @@ package controllers;
 
 import helpers.InputHelper;
 import model.Restaurant;
+import model.Review;
 import repositories.Repository;
 
 import java.util.List;
 
 public class RestaurantController {
-    private final Repository repository;
+    private final Repository<Restaurant> repository;
 
     public RestaurantController() {
        InputHelper input = new InputHelper();
@@ -32,19 +33,19 @@ public class RestaurantController {
         do {
             char choice = displayMenu();
             switch (choice) {
-                case 'A': 
+                case 'a':
                     addRestaurant();
                     break;
-                case 'B':  
+                case 'b':
                     addReview();
                     break;
-                case 'C': 
+                case 'c':
                     listLocationRestaurantDataInNameOrder();
                     break;                    
-                case 'D': 
+                case 'd':
                     listRestaurantRatings();
                     break;
-                case 'Q': 
+                case 'q':
                     finished = true;
             }
         } while (!finished);
@@ -58,32 +59,66 @@ public class RestaurantController {
         System.out.print("\tC. List Location Restaurant Data In Name Order");
         System.out.print("\tD. List Restaurant Ratings");       
         System.out.print("\tQ. Quit\n");         
-        return inputHelper.readCharacter("Enter choice", "ABCDQ");
+        return Character.toLowerCase(inputHelper.readCharacter("Enter choice", "ABCDQ"));
     }    
     
     private void addRestaurant() {
         System.out.format("\033[31m%s\033[0m%n", "Add Restaurant");
-        System.out.format("\033[31m%s\033[0m%n", "==============");       
+        System.out.format("\033[31m%s\033[0m%n", "==============");
+
+        InputHelper input = new InputHelper();
+        String name = input.readString("Please enter the name of the Restaurant to add");
+        String location = input.readString("Please enter the location of the Restaurant to add");
+
+        Restaurant restaurant = new Restaurant(name, location);
+        repository.add(restaurant);
     }
     
     private void addReview() {        
         System.out.format("\033[31m%s\033[0m%n", "Add Restaurant Review");
-        System.out.format("\033[31m%s\033[0m%n", "=====================");       
+        System.out.format("\033[31m%s\033[0m%n", "=====================");
+
+        InputHelper input = new InputHelper();
+
+        int id = input.readInt("Please enter the id of the Restaurant to review");
+
+        String reviewer = input.readString("Please enter the name of the reviewer");
+        int rating = input.readInt("Please enter the restaurant's rating [1 - 5]", 5, 1);
+
+        Review review = new Review(reviewer, rating);
+        repository.getItem(id).getReviewsCollection().add(review);
     }    
       
 
     private void listLocationRestaurantDataInNameOrder() {        
         System.out.format("\033[31m%s\033[0m%n", "Name Order");
         System.out.format("\033[31m%s\033[0m%n", "==========");
+
+        List<Restaurant> temp = repository.getItems();
+        temp.sort(Restaurant.NameComparator);
+        System.out.println(temp);
     }    
     
     private void listRestaurantRatings() {
         System.out.format("\033[31m%s\033[0m%n", "Restaurant Ratings");
-        System.out.format("\033[31m%s\033[0m%n", "==================");   
+        System.out.format("\033[31m%s\033[0m%n", "==================");
+
+        for (Restaurant restaurant : repository.getItems()){
+            int avg = 0;
+            for (Review review : restaurant.getReviewsCollection()){
+                avg += review.getRating();
+            }
+            avg = avg / restaurant.getReviewsCollection().size();
+            System.out.println("Restaurant " + restaurant.getName() + " has an average rating of " + avg);
+        }
     }    
     
     private void listRestaurantDataInIdOrder() {        
         System.out.format("\033[31m%s\033[0m%n", "Restaurant Id Order");
         System.out.format("\033[31m%s\033[0m%n", "===================");
+
+        List<Restaurant> temp = repository.getItems();
+        temp.sort(Restaurant.IdComparator);
+        System.out.println(temp);
     }     
 }

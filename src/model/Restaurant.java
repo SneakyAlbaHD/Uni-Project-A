@@ -5,11 +5,13 @@
  */
 package model;
 
-import java.io.Serializable;
+import repositories.RepositoryObject;
+
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-public class Restaurant implements Comparable<Restaurant>, Serializable {
+public class Restaurant extends RepositoryObject implements Comparable<Restaurant> {
     private final int id;
     private String name;
     private String location;
@@ -118,4 +120,16 @@ public class Restaurant implements Comparable<Restaurant>, Serializable {
         int resId=compareRestaurant.getId();
         return id - resId;
     }
+
+    public static Comparator<Restaurant> IdComparator = (r1, r2) -> {
+        int id1 = r1.getId();
+        int id2 = r2.getId();
+        return id1 - id2;
+    };
+
+    public static Comparator<Restaurant> NameComparator = (r1, r2) -> {
+        String name1 = r1.getName();
+        String name2 = r2.getName();
+        return name1.compareTo(name2);
+    };
 }

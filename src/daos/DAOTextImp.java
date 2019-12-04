@@ -15,7 +15,7 @@ public class DAOTextImp implements DAOInterface {
 
     @Override
     public Repository load(String filename){
-        Repository repository = new Repository();
+        Repository<Restaurant> repository = new Repository();
 
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(filename))){
             String[] temp;
@@ -48,9 +48,11 @@ public class DAOTextImp implements DAOInterface {
 
     @Override
     public void store(String filename, Repository repository) {
+        Repository<Restaurant> r = (Repository<Restaurant>) repository;
+
         try (PrintWriter printWriter = new PrintWriter(new FileWriter(filename))) {
-            for (int i = 1; i <= repository.getItems().size(); i++) {
-                printWriter.println(repository.getItem(i).toString(delimiter));
+            for (Restaurant restaurant : r.getItems()) {
+                printWriter.println(restaurant.toString(delimiter));
             }
         } catch (IOException e) {
             e.printStackTrace();
