@@ -42,9 +42,6 @@ public class RestaurantController {
                     listRestaurantRatings();
                     break;
                 case 'q':
-                    InputHelper inputHelper = new InputHelper();
-                    String file = inputHelper.readString("Enter path of file to save (relative or absolute)");                
-                    repository.store(file);
                     finished = true;
             }
         } while (!finished);
@@ -92,30 +89,11 @@ public class RestaurantController {
     private void listLocationRestaurantDataInNameOrder() {        
         System.out.format("\033[31m%s\033[0m%n", "Name Order");
         System.out.format("\033[31m%s\033[0m%n", "==========");
-
-        InputHelper input = new InputHelper();
-        String location = input.readString("Please enter a location");
-        
-        List<Restaurant> temp = new ArrayList<>();
-        for (Restaurant r: repository.getItems()) {
-            if (r.getLocation().equals(location)){ temp.add(r); }
-        }
-        temp.sort(Restaurant.NameComparator);
-        System.out.println(temp);
     }    
     
     private void listRestaurantRatings() {
         System.out.format("\033[31m%s\033[0m%n", "Restaurant Ratings");
         System.out.format("\033[31m%s\033[0m%n", "==================");
-
-        for (Restaurant restaurant : repository.getItems()){
-            int avg = 0;
-            for (Review review : restaurant.getReviewsCollection()){
-                avg += review.getRating();
-            }
-            avg = avg / restaurant.getReviewsCollection().size();
-            System.out.println("Restaurant " + restaurant.getName() + " has an average rating of " + avg);
-        }
     }    
     
     private void listRestaurantDataInIdOrder() {        

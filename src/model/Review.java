@@ -10,7 +10,7 @@ public class Review {
     private int rating;
     
     static final char EOLN='\n';       
-    static final String QUOTE="\""; 
+    static final char QUOTE='\"'; 
 
     public Review() {
         this.reviewer = "TBC";
@@ -36,6 +36,6 @@ public class Review {
     }   
 
     public String toString(char delimiter) {
-        return QUOTE + reviewer + QUOTE + delimiter + rating + EOLN;
+        return QUOTE + reviewer + QUOTE + delimiter + Integer.toString(rating) + EOLN;
     }
 }

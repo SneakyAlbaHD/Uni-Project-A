@@ -42,9 +42,6 @@ public class RestaurantController {
                     listRestaurantRatings();
                     break;
                 case 'q':
-                    InputHelper inputHelper = new InputHelper();
-                    String file = inputHelper.readString("Enter path of file to save (relative or absolute)");                
-                    repository.store(file);
                     finished = true;
             }
         } while (!finished);

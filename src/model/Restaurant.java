@@ -20,7 +20,7 @@ public class Restaurant extends RepositoryObject implements Comparable<Restauran
     private static int lastIdAllocated = 0;
     
     static final char EOLN='\n';       
-    static final String QUOTE="\""; 
+    static final char QUOTE='\"'; 
 
     public Restaurant() {
         this.id = ++lastIdAllocated;
@@ -48,17 +48,12 @@ public class Restaurant extends RepositoryObject implements Comparable<Restauran
         this.name = name;
         this.location = location;
         this.reviewsCollection = reviewsCollection;
-        if (id > Restaurant.lastIdAllocated)
-            Restaurant.lastIdAllocated = id;            
+        if (id > Restaurant.lastIdAllocated){ Restaurant.lastIdAllocated = id; } 
     }
 
-    public int getId() {
-        return id;
-    }    
+    public int getId() { return id; }    
 
-    public String getName(){
-        return name;
-    } 
+    public String getName(){ return name; } 
     public void setName(String name) { this.name = name; }
     
     public String getLocation(){
@@ -75,6 +70,10 @@ public class Restaurant extends RepositoryObject implements Comparable<Restauran
         this.reviewsCollection = reviewsCollection;
     }
     
+    public void addReview(Review review){
+        reviewsCollection.add(review);
+    }
+    
     @Override
     public String toString() {
         return "\nRestaurant Id: " + id +
@@ -84,10 +83,10 @@ public class Restaurant extends RepositoryObject implements Comparable<Restauran
     }    
     
     public String toString (char delimiter) {
-        String out = id + delimiter +
+        String out = Integer.toString(id) + delimiter +
                 QUOTE + name + QUOTE + delimiter +
                 QUOTE + location + QUOTE + delimiter +
-                reviewsCollection.size() + EOLN;
+                Integer.toString(reviewsCollection.size()) + EOLN;
 
         for (Review review : reviewsCollection){
             out += review.toString(delimiter);
@@ -101,8 +100,8 @@ public class Restaurant extends RepositoryObject implements Comparable<Restauran
         if(o instanceof Restaurant){
            Restaurant r = (Restaurant)o;
            return r.getId() == id &&
-                  r.getName() == name &&
-                  r.getLocation() == location &&
+                  r.getName().equals(name) &&
+                  r.getLocation().equals(location) &&
                   r.getReviewsCollection().equals(reviewsCollection);
         }
         else{
@@ -116,20 +115,15 @@ public class Restaurant extends RepositoryObject implements Comparable<Restauran
     }
 
     @Override
-    public int compareTo(Restaurant compareRestaurant){
-        int resId=compareRestaurant.getId();
-        return id - resId;
+    public int compareTo(Restaurant restaurant){
+        return id - restaurant.getId();
     }
 
     public static Comparator<Restaurant> IdComparator = (r1, r2) -> {
-        int id1 = r1.getId();
-        int id2 = r2.getId();
-        return id1 - id2;
+        return r1.getId() - r2.getId();
     };
 
     public static Comparator<Restaurant> NameComparator = (r1, r2) -> {
-        String name1 = r1.getName();
-        String name2 = r2.getName();
-        return name1.compareTo(name2);
+        return r1.getName().compareTo(r2.getName());
     };
 }

@@ -8,10 +8,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.sun.javafx.util.Utils.stripQuotes;
-
 public class DAOTextImp implements DAOInterface {
-    static final char delimiter = ',';
+    static final char DELIMITER = ',';
 
     @Override
     public Repository load(String filename){
@@ -21,7 +19,7 @@ public class DAOTextImp implements DAOInterface {
             String[] temp;
             String line = bufferedReader.readLine();
             while (line!=null) {
-                temp=line.split(Character.toString(delimiter));
+                temp=line.split(Character.toString(DELIMITER));
                 int id = Integer.parseInt(temp[0]);
                 String name = stripQuotes(temp[1]);
                 String location = stripQuotes(temp[2]);
@@ -29,7 +27,7 @@ public class DAOTextImp implements DAOInterface {
                 int num = Integer.parseInt(temp[3]);
                 for (int i = 0; i < num; i++) {
                     line = bufferedReader.readLine();
-                    temp=line.split(Character.toString(delimiter));
+                    temp=line.split(Character.toString(DELIMITER));
                     String reviewer = stripQuotes(temp[0]);
                     int rating = Integer.parseInt(temp[1]);
                     Review review = new Review(reviewer, rating);
@@ -49,13 +47,17 @@ public class DAOTextImp implements DAOInterface {
     @Override
     public void store(String filename, Repository repository) {
         Repository<Restaurant> r = (Repository<Restaurant>) repository;
-
+        
         try (PrintWriter printWriter = new PrintWriter(new FileWriter(filename))) {
             for (Restaurant restaurant : r.getItems()) {
-                printWriter.println(restaurant.toString(delimiter));
+                printWriter.print(restaurant.toString(DELIMITER));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    private String stripQuotes(String s) {
+        return s.substring(1, s.length()-1);
     }
 }
